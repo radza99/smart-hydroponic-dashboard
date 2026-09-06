@@ -48,7 +48,6 @@
     <!-- Navbar -->
     <nav class="glass sticky top-0 z-50 border-b border-slate-800/40 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-            <!-- ซ้าย: โลโก้ + ชื่อ -->
             <div class="flex items-center gap-4">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-emerald-500 via-cyan-500 to-violet-500 flex items-center justify-center text-2xl sm:text-3xl shadow-2xl transform hover:rotate-12 transition-transform duration-700">
                     🌊
@@ -56,9 +55,7 @@
                 <h1 class="text-2xl sm:text-3xl font-bold tracking-tight gradient-text">Hydopronic</h1>
             </div>
 
-            <!-- ขวา: Controls -->
             <div class="flex items-center gap-4 sm:gap-6 flex-wrap justify-end">
-                <!-- Profile -->
                 <div class="flex items-center gap-3 min-w-[160px]">
                     <label class="text-sm font-medium text-slate-300 whitespace-nowrap">Profile:</label>
                     <select id="profileSelect" class="glass px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-white text-sm border border-slate-600 focus:outline-none focus:border-emerald-500 bg-slate-800/60 min-w-[110px]">
@@ -67,13 +64,11 @@
                     </select>
                 </div>
 
-                <!-- Status Banner -->
                 <div id="statusBanner" class="glass px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-xs sm:text-sm font-medium flex items-center gap-2 sm:gap-3 shadow-inner transition-all duration-300 min-w-[140px] justify-center">
                     <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500 live-pulse"></span>
                     กำลังโหลด...
                 </div>
 
-                <!-- Export Buttons (ย้อนหลัง 30 วัน) -->
                 <button id="exportSensorBtn" class="group relative overflow-hidden bg-gradient-to-r from-emerald-600 via-emerald-500 to-cyan-600 text-white px-5 py-2 sm:px-6 sm:py-2.5 rounded-full font-medium shadow-lg hover:shadow-emerald-500/40 transition-all duration-300 active:scale-95 text-sm sm:text-base cursor-pointer">
                     <span class="relative z-10 flex items-center gap-1.5 sm:gap-2"><span>📥</span> Sensor CSV (30 วัน)</span>
                     <span class="absolute inset-0 bg-white/15 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-400"></span>
@@ -84,7 +79,6 @@
                     <span class="absolute inset-0 bg-white/15 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-400"></span>
                 </button>
 
-                <!-- Last Update -->
                 <div class="text-xs sm:text-sm text-slate-300 font-medium whitespace-nowrap">
                     <span id="lastUpdate">กำลังโหลด...</span>
                 </div>
@@ -93,11 +87,8 @@
     </nav>
 
     <main class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-
-        <!-- Sensor Cards -->
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16" id="cardsContainer"></section>
 
-        <!-- Combined Chart -->
         <section class="mb-20">
             <h2 class="text-3xl font-semibold mb-6 flex items-center gap-4">
                 <span class="text-4xl opacity-80">📊</span> พารามิเตอร์หลัก • pH & TDS
@@ -107,7 +98,6 @@
             </div>
         </section>
 
-        <!-- Individual Charts -->
         <section>
             <h2 class="text-3xl font-semibold mb-8 flex items-center gap-4">
                 <span class="text-4xl opacity-80">📈</span> รายละเอียดเซ็นเซอร์ (ย้อนหลัง 60 ค่า)
@@ -115,7 +105,6 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8" id="chartsContainer"></div>
         </section>
 
-        <!-- สถานะอุปกรณ์จริง (Realtime จาก Firebase / ระบบ) -->
         <section class="mt-24 pt-16 border-t border-slate-800/50">
             <h2 class="text-2xl font-semibold mb-6 flex items-center gap-4">
                 <span class="text-3xl opacity-80">📡</span>
@@ -127,7 +116,6 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-5" id="controlContainer"></div>
         </section>
 
-        <!-- Manual Override (Firebase root level) -->
         <section class="mt-20 pt-16 border-t border-slate-800/50 bg-gradient-to-b from-slate-900/30 to-transparent">
             <h2 class="text-2xl font-semibold mb-6 flex items-center gap-4">
                 <span class="text-3xl opacity-80">🛠️</span>
@@ -157,30 +145,29 @@
         </section>
 
         <footer class="text-center text-sm text-slate-500 mt-20 pb-12">
-            Sensor Channel: 3250622 • Control Channel: <span id="controlChannelShow">กำลังโหลด...</span> • Firebase Realtime Connected
+            Sensor Channel: <span id="sensorChannelShow">--</span> • Control Channel: <span id="controlChannelShow">กำลังโหลด...</span> • Firebase Realtime Connected
         </footer>
-
     </main>
 
 <script>
 // ================== ThingSpeak Channels ==================
-const sensorChannelId   = '3250622';
-const sensorApiKey      = 'ZBIZO18LCHQ3FBKQ';
-const pidChannelId      = '2960706';
-const pidApiKey         = 'Z3OBUK46R21R2WHZ';
-const controlChannelId  = '3298639';
-const controlApiKey     = 'UKPZ37O0E0DD46ZG';
+const sensorChannelId   = 'YOUR_THINGSPEAK_SENSOR_CHANNEL_ID';
+const sensorApiKey      = 'YOUR_THINGSPEAK_SENSOR_API_KEY';
+const pidChannelId      = 'YOUR_THINGSPEAK_PID_CHANNEL_ID';
+const pidApiKey         = 'YOUR_THINGSPEAK_PID_API_KEY';
+const controlChannelId  = 'YOUR_THINGSPEAK_CONTROL_CHANNEL_ID';
+const controlApiKey     = 'YOUR_THINGSPEAK_CONTROL_API_KEY';
 
 // ================== Firebase Config ==================
 const firebaseConfig = {
-  apiKey: "AIzaSyAIzstt1xaSJrRnBlFh6GgXd8KUPguAkxI",
-  authDomain: "smarthydroponic-f1a49.firebaseapp.com",
-  databaseURL: "https://smarthydroponic-f1a49-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "smarthydroponic-f1a49",
-  storageBucket: "smarthydroponic-f1a49.firebasestorage.app",
-  messagingSenderId: "411216902652",
-  appId: "1:411216902652:web:2728c8b896b152ef161a79",
-  measurementId: "G-5JZMDKGSD7"
+  apiKey: "YOUR_FIREBASE_API_KEY",
+  authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
+  databaseURL: "YOUR_FIREBASE_DATABASE_URL",
+  projectId: "YOUR_FIREBASE_PROJECT_ID",
+  storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
+  appId: "YOUR_FIREBASE_APP_ID",
+  measurementId: "YOUR_FIREBASE_MEASUREMENT_ID"
 };
 
 let db;
@@ -346,7 +333,6 @@ async function fetchSensorData() {
     } catch(e) { console.error("Sensor fetch error:", e); }
 }
 
-// Firebase Realtime Listener สำหรับอัปเดตสถานะอุปกรณ์จริง และโหมดการทำงานแบบ Realtime ทันที
 function updateRealtimeUI(snapshot) {
     if (!snapshot.exists()) {
         console.log("No data at root");
@@ -371,10 +357,8 @@ function updateRealtimeUI(snapshot) {
     const isManual = mode === 'manual';
 
     controlConfigs.forEach(c => {
-        // ดึงสถานะจริงของอุปกรณ์จาก Firebase (pump.<fbKey>)
         const isActive = data.pump?.[c.fbKey] === true;
 
-        // 1. อัปเดตการ์ดสถานะอุปกรณ์จริง (Realtime)
         const controlElem = document.getElementById(`control-${c.field}`);
         const statusElem = document.getElementById(`status-${c.field}`);
         if (controlElem) {
@@ -387,7 +371,6 @@ function updateRealtimeUI(snapshot) {
                 : '<span class="text-red-400 flex items-center justify-center gap-1">○ ปิด</span>';
         }
 
-        // 2. อัปเดตสวิตช์ควบคุมแบบ Manual
         const checkbox = document.getElementById(`switch-${c.field}`);
         const label = document.getElementById(`switch-label-${c.field}`);
 
@@ -426,7 +409,6 @@ function setupFirebaseListeners() {
             .catch(err => console.error("Set profile failed:", err));
     });
 
-    // Realtime Listener ตลอดเวลา
     controlRef.on('value', snapshot => {
         updateRealtimeUI(snapshot);
     }, err => console.error("Firebase listener error:", err));
@@ -434,7 +416,6 @@ function setupFirebaseListeners() {
     controlRef.once('value').then(updateRealtimeUI);
 }
 
-// ================== Export 30 Days CSV Function ==================
 async function export30DaysCSV(channelId, apiKey, type) {
     const btn = document.getElementById(type === 'sensor' ? 'exportSensorBtn' : 'exportControlBtn');
     const originalContent = btn.innerHTML;
@@ -445,14 +426,13 @@ async function export30DaysCSV(channelId, apiKey, type) {
 
         const endDate = new Date();
         const startDate = new Date();
-        startDate.setDate(startDate.getDate() - 30); // ย้อนหลัง 30 วัน
+        startDate.setDate(startDate.getDate() - 30);
 
         let allFeeds = [];
         let currentStart = new Date(startDate);
         const maxResultsPerReq = 8000;
         let hasMore = true;
 
-        // วนลูปดึงข้อมูลทีละ 8,000 แถวเพื่อป้องกัน ThingSpeak Rate Limit
         while (hasMore) {
             btn.innerHTML = `<span class="relative z-10 flex items-center gap-1.5">⏳ กำลังโหลด... (${allFeeds.length} แถว)</span>`;
 
@@ -525,7 +505,6 @@ async function export30DaysCSV(channelId, apiKey, type) {
     }
 }
 
-// ผูก Event ปุ่มกดดาวน์โหลด 30 วัน
 document.getElementById('exportSensorBtn').addEventListener('click', () => {
     export30DaysCSV(sensorChannelId, sensorApiKey, 'sensor');
 });
@@ -539,12 +518,12 @@ createUI();
 fetchSensorData();
 setupFirebaseListeners();
 
-// รอบอัปเดตข้อมูลเซ็นเซอร์จาก ThingSpeak
 setInterval(() => {
     fetchSensorData();
 }, 15000);
 
-document.getElementById('controlChannelShow').textContent = controlChannelId || '3298639';
+document.getElementById('sensorChannelShow').textContent = sensorChannelId;
+document.getElementById('controlChannelShow').textContent = controlChannelId;
 </script>
 </body>
 </html>
